@@ -11,9 +11,4 @@ CIS 4130 Semester Project for predictions of the probability that a customer doe
 
 ●	R_* = Risk variables
 
-I’ll choose pyspark because it runs operations using multiple machine while pandas only use single machine. Pyspark can perform lazy operation so that we have no to wait every operations to be finished. I look forward to using machine learning algorithms like the pipeline.
-    
-    pipeline = Pipeline(stages=[indexer, encoder, assembler, lr])
-To help combine multiple algorithms into a single pipeline, in order to help run crossvalidator in retrieving the best logistical model for predictions.
-    
-    cv = CrossValidator(estimator=pipeline, estimatorParamMaps=grid, evaluator=evaluator, numFolds=3 )
+I’ll choose pyspark because it runs operations using multiple machine while pandas only use single machine. Pyspark can perform lazy operation so that we have no to wait every operations to be finished. I look forward to using machine learning algorithms like the pipeline. To help combine multiple algorithms into a single pipeline, in order to help run crossvalidator in retrieving the best logistical model for predictions.
