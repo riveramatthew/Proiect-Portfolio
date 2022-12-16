@@ -1,0 +1,34 @@
+# Summary statistics
+df.describe()
+
+# the dimensions of the data
+df.shape
+
+# min and the max dates of the data
+import numpy as np
+df2 = df.agg[Minimum_Date=('S_2', np.min) Maximum_Date('S_2', np.max))
+print(df2)
+
+df['S_2'] = pd.to_datetime(df['S_2'])
+print(f'Train dates range is from {df["S_2"].min()} to {df["S_2"].max()}.')
+
+# distribution of the categorical features
+categorical_features = ['B_30', 'B_38', 'D_63', 'D_64', 'D_66', 'D_68', 'D_114', 'D_116', 'D_117', 'D_120', 'D_126']
+train_df[categorical_features] = train_df[categorical_features].astype("category")
+train_df[categorical_features].dtypes
+
+# detect the missing values of the data set
+df.isnull()
+
+Null = train_df.isna().sum().div(len(train_df)).mul(100).sort_values(ascending=False)
+Null
+
+plt.style.use('Solarize_Light2')
+fig, ax = plt.subplots(2,1, figsize=(25,10))
+sns.barplot(x=tmp[:100].index, y=tmp[:100].values, ax=ax[0])
+sns.barplot(x=tmp[100:].index, y=tmp[100:].values, ax=ax[1])
+ax[0].set_ylabel("Percentage [%]"), ax[1].set_ylabel("Percentage [%]")
+ax[0].tick_params(axis='x', rotation=90); ax[1].tick_params(axis='x', rotation=90)
+plt.suptitle("Amount of missing data")
+plt.tight_layout()
+plt.show()
