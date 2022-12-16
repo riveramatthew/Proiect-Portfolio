@@ -1,0 +1,217 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2706
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fmodern\fcharset0 CourierNewPS-BoldMT;\f1\froman\fcharset0 TimesNewRomanPSMT;\f2\fmodern\fcharset0 CourierNewPSMT;
+\f3\froman\fcharset0 Times-Roman;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red255\green255\blue254;\red0\green0\blue255;
+\red19\green120\blue72;\red144\green1\blue18;\red32\green108\blue135;\red255\green255\blue255;\red101\green76\blue29;
+\red157\green0\blue210;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\cssrgb\c100000\c100000\c99608;\cssrgb\c0\c0\c100000;
+\cssrgb\c3529\c53333\c35294;\cssrgb\c63922\c8235\c8235;\cssrgb\c14902\c49804\c60000;\cssrgb\c100000\c100000\c100000;\cssrgb\c47451\c36863\c14902;
+\cssrgb\c68627\c0\c85882;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\b\fs24 \cf2 \cb3 \expnd0\expndtw0\kerning0
+# plot percentage of distribution of target variable
+\f1\b0\fs32 \
+\pard\pardeftab720\partightenfactor0
+
+\f2\fs24 \cf2 \'a0 target=train.target.value_counts(normalize=\cf4 True\cf2 )
+\f1\fs32 \
+
+\f2\fs24 \'a0 target.rename(index=\{\cf5 1\cf2 :\cf6 'Default'\cf2 ,\cf5 0\cf2 :\cf6 'Paid'\cf2 \},inplace=\cf4 True\cf2 )
+\f1\fs32 \
+
+\f2\fs24 \'a0 pal, color=[\cf6 '#016CC9'\cf2 ,\cf6 '#DEB078'\cf2 ], [\cf6 '#8DBAE2'\cf2 ,\cf6 '#EDD3B3'\cf2 ]
+\f1\fs32 \
+
+\f2\fs24 \'a0 fig=go.Figure()
+\f1\fs32 \
+
+\f2\fs24 \'a0 fig.add_trace(go.Pie(labels=target.index, values=target*\cf5 100\cf2 , hole=\cf5 .45\cf2 , 
+\f1\fs32 \
+
+\f2\fs24 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 showlegend=\cf4 True\cf2 ,sort=\cf4 False\cf2 , 
+\f1\fs32 \
+
+\f2\fs24 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 marker=\cf7 dict\cf2 (colors=color,line=\cf7 dict\cf2 (color=pal,width=\cf5 2.5\cf2 )),
+\f1\fs32 \
+
+\f2\fs24 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 hovertemplate = \cf6 "%\{label\} Accounts: %\{value:.2f\}%<extra></extra>"\cf2 ))
+\f1\fs32 \
+
+\f2\fs24 \'a0 fig.update_layout(template=temp, title=\cf6 'Target Distribution'\cf2 , 
+\f1\fs32 \
+
+\f2\fs24 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 \'a0\'a0legend=\cf7 dict\cf2 (traceorder=\cf6 'reversed'\cf2 ,y=\cf5 1.05\cf2 ,x=\cf5 0\cf2 ),
+\f1\fs32 \
+
+\f2\fs24 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 \'a0\'a0uniformtext_minsize=\cf5 15\cf2 , uniformtext_mode=\cf6 'hide'\cf2 ,width=\cf5 700\cf2 )
+\f1\fs32 \
+
+\f2\fs24 \'a0 fig.show()
+\f1\fs32 \
+
+\f2\fs24 \'a0
+\f1\fs32 \
+\pard\pardeftab720\partightenfactor0
+
+\f0\b\fs24 \cf2 # \cb8 proportion of defaults across each day in the data set
+\f1\b0\fs32 \cb3 \
+\pard\pardeftab720\partightenfactor0
+
+\f2\fs24 \cf2 \'a0 target=pd.DataFrame(data=\{\cf6 'Default'\cf2 :data.groupby(\cf6 'S_2'\cf2 )[\cf6 'target'\cf2 ].mean()*\cf5 100\cf2 \})
+\f1\fs32 \
+
+\f2\fs24 \'a0 target[\cf6 'Paid'\cf2 ]=np.\cf9 abs\cf2 (data.groupby(\cf6 'S_2'\cf2 )[\cf6 'target'\cf2 ].mean()\cf5 -1\cf2 )*\cf5 100
+\f1\fs32 \cf2 \
+
+\f2\fs24 \'a0 rgb=[\cf6 'rgba'\cf2 +\cf7 str\cf2 (matplotlib.colors.to_rgba(i,\cf5 0.7\cf2 )) \cf10 for\cf2  i \cf4 in\cf2  pal]
+\f1\fs32 \
+
+\f2\fs24 \'a0 fig=go.Figure()
+\f1\fs32 \
+
+\f2\fs24 \'a0\'a0fig.add_trace(go.Bar(x=target.index, y=target.Paid, name=\cf6 'Paid'\cf2 ,
+\f1\fs32 \
+
+\f2\fs24 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 \'a0\'a0text=target.Paid, texttemplate=\cf6 '%\{text:.0f\}%'\cf2 , 
+\f1\fs32 \
+
+\f2\fs24 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 \'a0\'a0textposition=\cf6 'inside'\cf2 ,insidetextanchor=\cf6 "middle"\cf2 ,
+\f1\fs32 \
+
+\f2\fs24 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 \'a0\'a0marker=\cf7 dict\cf2 (color=color[\cf5 0\cf2 ],line=\cf7 dict\cf2 (color=pal[\cf5 0\cf2 ],width=\cf5 1.5\cf2 )),
+\f1\fs32 \
+
+\f2\fs24 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 \'a0\'a0hovertemplate = \cf6 "<b>%\{x\}</b><br>Paid accounts: %\{y:.2f\}%"\cf2 ))
+\f1\fs32 \
+
+\f2\fs24 \'a0 fig.add_trace(go.Bar(x=target.index, y=target.Default, name=\cf6 'Default'\cf2 ,
+\f1\fs32 \
+
+\f2\fs24 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 \'a0\'a0text=target.Default, texttemplate=\cf6 '%\{text:.0f\}%'\cf2 , 
+\f1\fs32 \
+
+\f2\fs24 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 \'a0\'a0textposition=\cf6 'inside'\cf2 ,insidetextanchor=\cf6 "middle"\cf2 ,
+\f1\fs32 \
+
+\f2\fs24 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 \'a0\'a0marker=\cf7 dict\cf2 (color=color[\cf5 1\cf2 ],line=\cf7 dict\cf2 (color=pal[\cf5 1\cf2 ],width=\cf5 1.5\cf2 )),
+\f1\fs32 \
+
+\f2\fs24 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 \'a0\'a0hovertemplate = \cf6 "<b>%\{x\}</b><br>Default accounts: %\{y:.2f\}%"\cf2 ))
+\f1\fs32 \
+
+\f2\fs24 \'a0 fig.update_layout(template=temp,title=\cf6 'Distribution of Default by Day'\cf2 , 
+\f1\fs32 \
+
+\f2\fs24 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 \'a0\'a0barmode=\cf6 'relative'\cf2 , yaxis_ticksuffix=\cf6 '%'\cf2 , width=\cf5 1400\cf2 ,
+\f1\fs32 \
+
+\f2\fs24 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 \'a0\'a0legend=\cf7 dict\cf2 (orientation=\cf6 "h"\cf2 , traceorder=\cf6 "reversed"\cf2 , \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0yanchor=\cf6 "bottom"\cf2 ,y=\cf5 1.1\cf2 ,xanchor=\cf6 "left"\cf2 , x=\cf5 0\cf2 ))
+\f1\fs32 \
+
+\f2\fs24 \'a0 fig.show()
+\f1\fs32 \
+\pard\pardeftab720\partightenfactor0
+
+\f2\fs24 \cf2 \cb1 \'a0
+\f1\fs32 \
+\pard\pardeftab720\partightenfactor0
+
+\f0\b\fs24 \cf2 # Grab the model from Stage 0 of the pipeline
+\f1\b0\fs32 \
+\pard\pardeftab720\partightenfactor0
+
+\f2\fs24 \cf2 \'a0\'a0mymodel = cv.bestModel.stages[0]
+\f1\fs32 \
+
+\f2\fs24 \'a0 import matplotlib.pyplot as plt
+\f1\fs32 \
+
+\f2\fs24 \'a0 plt.figure(figsize=(5,5))
+\f1\fs32 \
+
+\f2\fs24 \'a0\'a0plt.plot(mymodel.summary.roc.select('FPR').collect(),
+\f1\fs32 \
+
+\f2\fs24 \'a0\'a0...\'a0\'a0\'a0\'a0 mymodel.summary.roc.select('TPR').collect())
+\f1\fs32 \
+
+\f2\fs24 \'a0\'a0plt.xlabel('False Positive Rate')
+\f1\fs32 \
+
+\f2\fs24 \'a0\'a0Text(0.5, 0, 'False Positive Rate')
+\f1\fs32 \
+
+\f2\fs24 \'a0\'a0plt.ylabel('True Positive Rate')
+\f1\fs32 \
+
+\f2\fs24 \'a0\'a0Text(0, 0.5, 'True Positive Rate')
+\f1\fs32 \
+
+\f2\fs24 \'a0\'a0plt.title("ROC Curve")
+\f1\fs32 \
+
+\f2\fs24 \'a0\'a0Text(0.5, 1.0, 'ROC Curve')
+\f1\fs32 \
+
+\f2\fs24 \'a0\'a0plt.savefig("roc1.png")
+\f1\fs32 \
+
+\f2\fs24 \'a0
+\f1\fs32 \
+\pard\pardeftab720\partightenfactor0
+
+\f0\b\fs24 \cf2 # Create the confusion matrix
+\f1\b0\fs32 \
+\pard\pardeftab720\partightenfactor0
+
+\f2\fs24 \cf2 \'a0 predictions.groupby('label').pivot('prediction').count().fillna(0).show()
+\f1\fs32 \
+
+\f2\fs24 \'a0
+\f1\fs32 \
+
+\f2\fs24 \'a0 cm = predictions.groupby('label').pivot('prediction').count().fillna(0).collect()
+\f1\fs32 \
+
+\f2\fs24 \'a0 def calculate_recall_precision(cm):\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\fs32 \
+
+\f2\fs24 \'a0 ...\'a0\'a0\'a0\'a0 tn = cm[0][1] # True Negative
+\f1\fs32 \
+
+\f2\fs24 \'a0 ...\'a0\'a0\'a0\'a0 fp = cm[0][2] # False Positive
+\f1\fs32 \
+
+\f2\fs24 \'a0 ...\'a0\'a0\'a0\'a0 fn = cm[1][1] # False Negative
+\f1\fs32 \
+
+\f2\fs24 \'a0 ...\'a0\'a0\'a0\'a0 tp = cm[1][2] # True Positive
+\f1\fs32 \
+
+\f2\fs24 \'a0 ...\'a0\'a0\'a0\'a0 precision = tp / ( tp + fp )
+\f1\fs32 \
+
+\f2\fs24 \'a0 ...\'a0\'a0\'a0\'a0 recall = tp / ( tp + fn )
+\f1\fs32 \
+
+\f2\fs24 \'a0 ...\'a0\'a0\'a0\'a0 accuracy = ( tp + tn ) / ( tp + tn + fp + fn )
+\f1\fs32 \
+
+\f2\fs24 \'a0 ...\'a0\'a0\'a0\'a0 f1_score = 2 * ( ( precision * recall ) / ( precision + recall ) )
+\f1\fs32 \
+
+\f2\fs24 \'a0 ...\'a0\'a0\'a0\'a0 return accuracy, precision, recall, f1_score
+\f1\fs32 \
+
+\f2\fs24 \'a0 
+\f1\fs32 \
+
+\f2\fs24 \'a0 print( calculate_recall_precision(cm) )
+\f1\fs32 \
+\pard\pardeftab720\partightenfactor0
+
+\f0\b\fs24 \cf2 (0.18158718173964178, 0.3221868187154117, 0.09406027847952529,0.
+\f3\b0  }
