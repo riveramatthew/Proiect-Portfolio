@@ -1,0 +1,50 @@
+# plot percentage of distribution of target variable
+  target=train.target.value_counts(normalize=True)
+  target.rename(index={1:'Default',0:'Paid'},inplace=True)
+  pal, color=['#016CC9','#DEB078'], ['#8DBAE2','#EDD3B3']
+  fig=go.Figure()
+  fig.add_trace(go.Pie(labels=target.index, values=target*100, hole=.45, 
+                     showlegend=True,sort=False, 
+                     marker=dict(colors=color,line=dict(color=pal,width=2.5)),
+                     hovertemplate = "%{label} Accounts: %{value:.2f}%<extra></extra>"))
+  fig.update_layout(template=temp, title='Target Distribution', 
+                    legend=dict(traceorder='reversed',y=1.05,x=0),
+                    uniformtext_minsize=15, uniformtext_mode='hide',width=700)
+  fig.show()
+ 
+# proportion of defaults across each day in the data set
+  target=pd.DataFrame(data={'Default':data.groupby('S_2')['target'].mean()*100})
+  target['Paid']=np.abs(data.groupby('S_2')['target'].mean()-1)*100
+  rgb=['rgba'+str(matplotlib.colors.to_rgba(i,0.7)) for i in pal]
+  fig=go.Figure()
+  fig.add_trace(go.Bar(x=target.index, y=target.Paid, name='Paid',
+                       text=target.Paid, texttemplate='%{text:.0f}%', 
+                       textposition='inside',insidetextanchor="middle",
+                       marker=dict(color=color[0],line=dict(color=pal[0],width=1.5)),
+                       hovertemplate = "<b>%{x}</b><br>Paid accounts: %{y:.2f}%"))
+  fig.add_trace(go.Bar(x=target.index, y=target.Default, name='Default',
+                       text=target.Default, texttemplate='%{text:.0f}%', 
+                       textposition='inside',insidetextanchor="middle",
+                       marker=dict(color=color[1],line=dict(color=pal[1],width=1.5)),
+                       hovertemplate = "<b>%{x}</b><br>Default accounts: %{y:.2f}%"))
+  fig.update_layout(template=temp,title='Distribution of Default by Day', 
+                    barmode='relative', yaxis_ticksuffix='%', width=1400,
+                    legend=dict(orientation="h", traceorder="reversed",                               yanchor="bottom",y=1.1,xanchor="left", x=0))
+  fig.show()
+ 
+# Grab the model from Stage 0 of the pipeline
+  mymodel = cv.bestModel.stages[0]
+  import matplotlib.pyplot as plt
+  plt.figure(figsize=(5,5))
+  plt.plot(mymodel.summary.roc.select('FPR').collect(),
+  ...     mymodel.summary.roc.select('TPR').collect())
+  plt.xlabel('False Positive Rate')
+  Text(0.5, 0, 'False Positive Rate')
+  plt.ylabel('True Positive Rate')
+  Text(0, 0.5, 'True Positive Rate')
+  plt.title("ROC Curve")
+  Text(0.5, 1.0, 'ROC Curve')
+  plt.savefig("roc1.png")
+ 
+# Create the confusion matrix
+  predictions.groupby('label').pivot('prediction').count().fillna(0).show()
